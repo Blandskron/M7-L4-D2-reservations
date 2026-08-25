@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y0721*v=d2jwte0%n)-ugd_snv=b4+s)!__q#ll6ac-l71q*-o'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-only-for-local-development')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -76,11 +77,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "reservations_db",     # nombre de la base de datos
-        "USER": "postgres",   # usuario PostgreSQL
-        "PASSWORD": "admin1234", # contraseña
-        "HOST": "localhost",           # servidor PostgreSQL
-        "PORT": "5432",                # puerto PostgreSQL
+        "NAME": os.getenv("POSTGRES_DB", "reservations_db"),
+        "USER": os.getenv("POSTGRES_USER", "reservations_user"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "reservations_password"),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
         "CONN_MAX_AGE": 60,             # reutilización de conexión
     }
 }

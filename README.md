@@ -242,6 +242,21 @@ python manage.py migrate reservations zero
 
 ## Administración y verificación
 
+## Ejecutar el aula con Docker
+
+El proyecto incluye `Dockerfile`, `.dockerignore`, `docker-compose.yml` y un
+`docker-entrypoint.sh`. Al iniciar, el entrypoint ejecuta `migrate` y crea (o
+actualiza) el superusuario usando las variables `DJANGO_SUPERUSER_*`.
+
+```bash
+docker compose up --build
+```
+
+Abre `http://localhost:8000/` para la lección, `http://localhost:8000/admin/`
+para la administración y `http://localhost:8000/api/reservations/` para ver los
+datos. Antes de usar un ambiente no local, define contraseñas y `DJANGO_SECRET_KEY`
+seguras en un archivo `.env` (que no se versiona).
+
 Crear usuario administrativo:
 
 ```bash
